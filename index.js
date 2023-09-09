@@ -24,17 +24,27 @@ document.getElementById("new-post").addEventListener("submit", function(e){
         body: postBody
 
     }
-
-        const options ={
+    const option = {
         method:"POST",
         body: JSON.stringify(data),
-        header:{
-            "content-type":"application.jason"
+        headers: {
+            "Content-Type": "application/json",
         }
     }
-    fetch("https://apis.scrimba.com/jsonplaceholder/posts" , options)
-    .then(res => res.json())
-    .then(data =>{
-        console.log(data)
-    })
-})
+    fetch("https://apis.scrimba.com/jsonplaceholder/posts", option)
+        .then((res) => res.json())
+        .then((data) => {
+            console.log(data)
+
+            // Update the blog-list element with the generated HTML
+            document.getElementById("blog-list").innerHTML =
+            `
+                    <h3>${data.title}</h3>
+                    <p>${data.body}</p>
+                    <hr />
+                    ${document.getElementById("blog-list").innerHTML}
+                `
+                
+            ;
+        })
+});
