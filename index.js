@@ -1,8 +1,5 @@
-fetch("https://apis.scrimba.com/jsonplaceholder/posts")
-.then(response => response.json())
-.then(data => {
-    const postsArr =data.slice(0,5)
-    console.log(postsArr)
+let postArr = []
+function renderpost (){
     let html = ""
     for(let post of postsArr ){
         html += `
@@ -12,6 +9,13 @@ fetch("https://apis.scrimba.com/jsonplaceholder/posts")
         `
     }
     document.getElementById("blog-list").innerHTML =html
+}
+//Get API
+fetch("https://apis.scrimba.com/jsonplaceholder/posts")
+.then(response => response.json())
+.then(data => {
+    postsArr =data.slice(0,5)
+    renderpost()
 })
 
 document.getElementById("new-post").addEventListener("submit", function(e){
@@ -34,17 +38,7 @@ document.getElementById("new-post").addEventListener("submit", function(e){
     fetch("https://apis.scrimba.com/jsonplaceholder/posts", option)
         .then((res) => res.json())
         .then((data) => {
-            console.log(data)
-
-            // Update the blog-list element with the generated HTML
-            document.getElementById("blog-list").innerHTML =
-            `
-                    <h3>${data.title}</h3>
-                    <p>${data.body}</p>
-                    <hr />
-                    ${document.getElementById("blog-list").innerHTML}
-                `
-                
-            ;
+            postsArr.unshift(data)
+            renderpost()
         })
 });
