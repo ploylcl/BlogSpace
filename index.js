@@ -1,4 +1,8 @@
 let postArr = []
+const titleInput = document.getElementById("post-title")
+const bodyInput = document.getElementById("post-body")
+const form = document.getElementById("new-post")
+const blogList = document.getElementById("blog-list")
 function renderpost (){
     let html = ""
     for(let post of postsArr ){
@@ -8,8 +12,9 @@ function renderpost (){
             <hr />
         `
     }
-    document.getElementById("blog-list").innerHTML =html
+    blogList.innerHTML =html
 }
+
 //Get API
 fetch("https://apis.scrimba.com/jsonplaceholder/posts")
 .then(response => response.json())
@@ -18,10 +23,10 @@ fetch("https://apis.scrimba.com/jsonplaceholder/posts")
     renderpost()
 })
 
-document.getElementById("new-post").addEventListener("submit", function(e){
+form.addEventListener("submit", function(e){
         e.preventDefault() //stop form from submitting
-    const postTitle = document.getElementById("post-title").value
-    const postBody = document.getElementById("post-body").value
+    const postTitle = titleInput.value
+    const postBody = bodyInput.value
     console.log(`${postTitle} ${postBody}`)
     const data = {
         title: postTitle,
@@ -40,5 +45,6 @@ document.getElementById("new-post").addEventListener("submit", function(e){
         .then((data) => {
             postsArr.unshift(data)
             renderpost()
+            form.reset()
         })
 });
